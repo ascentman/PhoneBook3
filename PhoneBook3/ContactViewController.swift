@@ -8,6 +8,11 @@
 
 import UIKit
 
+enum ContactViewControllerStates {
+    case add
+    case show
+}
+
 final class ContactViewController: UIViewController {
 
     @IBOutlet weak var name: UITextField!
@@ -15,12 +20,25 @@ final class ContactViewController: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var surnameLabel: UILabel!
+    @IBOutlet weak var saveButton: UIButton!
     
+    let manager = FileManagerClass()
     var newContact = Contact()
-    
+    var currentState : ContactViewControllerStates = .add
+
     override func viewDidLoad() {
         super.viewDidLoad()
     
+        if currentState == .show {
+            saveButton.isHidden = true
+            name.isHidden = true
+            surname.isHidden = true
+            self.title = "Details"
+        }
+        
+        nameLabel.text = newContact.name
+        surnameLabel.text = newContact.surname
+        //img
     }
     
     @IBAction func saveClicked(_ sender: Any) {
@@ -34,12 +52,9 @@ final class ContactViewController: UIViewController {
         
         newContact.name = cName
         newContact.surname = cSurname
-        print("here:", cName, cSurname)
         //newContact.imagePath =
         
-        //write
-//        let object = FileManagerClass()
-//        try? object.writeDataToPlist()
+        try? manager.writeDataToPlist(newContact: newContact)
     }
     
     private func missingFieldsAlert() {

@@ -9,8 +9,8 @@
 import Foundation
 
 enum ErrorToThrow : Error {
-    case failToCreateFile
-    case failToDeleteFile
+    case failToCreate
+    case failToDelete
     case failToReadFromPlist
     case failWriteToPlist
     

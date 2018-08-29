@@ -19,18 +19,6 @@ class SettingsViewController: UIViewController {
         if let theme = UserDefaults.standard.value(forKey: "Selected theme") as? Bool {
             darkThemeSwitch.isOn = theme
         }
-        
-//        print("READING from plist")
-//        var readContact : Contact = Contact()
-//        do {
-//            let data = try Data(contentsOf: settingsURL)
-//            let decoder = PropertyListDecoder()
-//            readContact = try decoder.decode(Contact.self, from: data)
-//            print("Contact:", readContact.name, readContact.surname)
-//        } catch {
-//            print(error)
-//        }
-
     }
     
     @IBAction func darkThemeChanged(_ sender: UISwitch) {

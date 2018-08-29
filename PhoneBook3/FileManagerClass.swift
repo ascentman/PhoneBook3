@@ -11,6 +11,13 @@ import Foundation
 final class FileManagerClass {
     
     private let fileManager = FileManager.default
+    var filelist : [URL]? {
+        get {
+            guard let contactDirectory = contactDirectory else { return nil }
+            let arrayOfUrl = try? fileManager.contentsOfDirectory(at: contactDirectory, includingPropertiesForKeys: nil, options: [])
+            return arrayOfUrl
+        }
+    }
     private var documentDirectory : URL? {
         get {
             guard let documentDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
@@ -25,8 +32,16 @@ final class FileManagerClass {
             guard let documentDirectory = documentDirectory else {
                 return nil
             }
-            print("doc:", documentDirectory)
             return documentDirectory.appendingPathComponent("Contacts", isDirectory: true)
+        }
+    }
+    
+    private var imagesDirectory : URL? {
+        get {
+            guard let documentDirectory = documentDirectory else {
+                return nil
+            }
+            return documentDirectory.appendingPathComponent("Images", isDirectory: true)
         }
     }
         
@@ -40,60 +55,58 @@ final class FileManagerClass {
     func createContactDirectory() throws {
         do {
             guard let contactDirectory = contactDirectory else { return }
-            print("path", contactDirectory)
             try fileManager.createDirectory(at: contactDirectory, withIntermediateDirectories: true, attributes: nil)
         } catch {
-            throw ErrorToThrow.failToCreateFile
+            throw ErrorToThrow.failToCreate
         }
     }
     
-//    func createImagesFolder() throws {
-//        do {
-//            guard let documentDirectory = documentDirectory else { return }
-//            try fileManager.createDirectory(at: URL(fileURLWithPath: documentDirectory.appending("/Images")), withIntermediateDirectories: true, attributes: nil)
-//        } catch {
-//            throw ErrorToThrow.failToCreateFile
-//        }
-//    }
+    func createImagesDirectory() throws {
+        do {
+            guard let imagesDirectory = imagesDirectory else { return }
+            try fileManager.createDirectory(at: imagesDirectory, withIntermediateDirectories: true, attributes: nil)
+        } catch {
+            throw ErrorToThrow.failToCreate
+        }
+    }
     
     func removeFile(from : String) throws {
         do {
             try fileManager.removeItem(atPath: from)
         } catch {
-            throw ErrorToThrow.failToDeleteFile
+            throw ErrorToThrow.failToDelete
         }
     }
     
-//    func readDataFromPlist() throws {
-//        print("READING from plist")
-//        var readContact = Contact()
-//        do {
-//            if let plist = plistFile {
-//                let data = try Data(contentsOf: plist)
-//                let decoder = PropertyListDecoder()
-//                readContact = try decoder.decode(Contact.self, from: data)
-//                print("Contact:", readContact.name, readContact.surname)
-//                //contacts.append(readContact)
-//            } else {
-//                print("no plist files")
-//            }
-//        } catch {
-//            throw ErrorToThrow.failToReadFromPlist
-//        }
-//    }
+    func readDataFromPlist(plist: URL) throws -> Contact {
+        print("READING from plist")
+        var readContact = Contact()
+        do {
+            let data = try Data(contentsOf: plist)
+            let decoder = PropertyListDecoder()
+            readContact = try decoder.decode(Contact.self, from: data)
+        } catch {
+            throw ErrorToThrow.failToReadFromPlist
+        }
+        return readContact
+    }
     
-    func writeDataToPlist() throws {
+    func writeDataToPlist(newContact: Contact) throws {
         print("WRITING to plist")
-        let writeContact = Contact(name: "dwwwd", surname: "ww")
         let encoder = PropertyListEncoder()
         encoder.outputFormat = .xml
         do {
-            let data = try encoder.encode(writeContact)
+            let data = try encoder.encode(newContact)
             if let plist = plistFile {
             try data.write(to: plist)
             }
         } catch {
             throw ErrorToThrow.failWriteToPlist
         }
+    }
+    
+    func getPlistCount() -> Int {
+        guard let filelist = filelist else { return 0 }
+     return filelist.count
     }
 }

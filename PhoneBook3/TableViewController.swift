@@ -14,21 +14,43 @@ import UIKit
 class TableViewController: UITableViewController {
     
     private var contacts : [Contact] = []
+    let manager = FileManagerClass()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        try? fileObject.readDataFromPlist()
+
+        if manager.getPlistCount() != 0 {
+            if let filelist = manager.filelist {
+                for file in filelist {
+                    let contact = try? manager.readDataFromPlist(plist: file)
+                    if let contact = contact {
+                        contacts.append(contact)
+                    }
+                }
+            }
+        }
+                
         self.applyAppearence()
-    
-        //read
 
     }
+    
+    // MARK: - Segues
     
     @IBAction func unwindToTableViewController(segue: UIStoryboardSegue) {
         if let vc = segue.source as? ContactViewController {
             contacts.append(vc.newContact)
         }
         tableView.reloadData()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if(segue.identifier == "segue") {
+            let index = tableView.indexPathForSelectedRow
+            if let destination = segue.destination as? ContactViewController, let index = index {
+                destination.newContact = contacts[index.row]
+                destination.currentState = .show
+            }
+        }
     }
 }
 

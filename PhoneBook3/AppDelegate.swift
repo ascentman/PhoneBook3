@@ -17,14 +17,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         Theme.current.apply()
         
-        
-        let fileObject = FileManagerClass()
-        try? fileObject.createContactDirectory()
-        print("created")
-        try? fileObject.writeDataToPlist()
-        //print(fileObject.documentDirectory!)
-        
-        
+        let manager = FileManagerClass()
+        try? manager.createContactDirectory()
+        try? manager.createImagesDirectory()
         return true
     }
 
