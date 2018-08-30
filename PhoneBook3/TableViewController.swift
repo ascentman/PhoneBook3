@@ -8,14 +8,15 @@
 
 import UIKit
 
-//let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-//let settingsURL = URL(fileURLWithPath: documentDirectory.appending("Contact.plist"))
-
 class TableViewController: UITableViewController {
-    
-    private var contacts : [Contact] = []
-    let manager = FileManagerClass()
 
+    @IBOutlet var contactsTableView: UITableView!
+    
+    private let manager = FileManagerClass()
+    private var contacts : [Contact] = []
+
+    // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -29,32 +30,38 @@ class TableViewController: UITableViewController {
                 }
             }
         }
-                
         self.applyAppearence()
-
     }
     
     // MARK: - Segues
     
-    @IBAction func unwindToTableViewController(segue: UIStoryboardSegue) {
-        if let vc = segue.source as? ContactViewController {
-            contacts.append(vc.newContact)
-        }
-        tableView.reloadData()
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.identifier == "segue") {
             let index = tableView.indexPathForSelectedRow
-            if let destination = segue.destination as? ContactViewController, let index = index {
-                destination.newContact = contacts[index.row]
-                destination.currentState = .show
+            if let destination = segue.destination as? ContactViewController {
+                if let index = index {
+                    destination.newContact = contacts[index.row]
+                    destination.currentState = .show
+                }
+                destination.delegate = self
             }
         }
     }
 }
 
+extension TableViewController: SendContactDelagate {
+    
+    // MARK: - SendContactDelagate
+    
+    func userDidEnterData(contact: Contact) {
+        contacts.append(contact)
+        contactsTableView.reloadData()
+    }
+}
+
 extension TableViewController {
+    
+    // MARK: - TableViewControllerDelegate
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return contacts.count
@@ -65,7 +72,9 @@ extension TableViewController {
         let contact = contacts[indexPath.row]
         cell.updateName(contact.name)
         cell.updateSurname(contact.surname)
-        //cell.updateImageView(UIImage(contentsOfFile: contact.imagePath!))
+        if let imagePath = contact.imagePath {
+            cell.updateImageView(imagePath.path)
+        }
         cell.applyAppearence()
         return cell
     }

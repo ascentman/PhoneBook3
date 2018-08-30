@@ -6,14 +6,16 @@
 //  Copyright © 2018 Vova. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 final class FileManagerClass {
     
     private let fileManager = FileManager.default
     var filelist : [URL]? {
         get {
-            guard let contactDirectory = contactDirectory else { return nil }
+            guard let contactDirectory = contactDirectory else {
+                return nil
+            }
             let arrayOfUrl = try? fileManager.contentsOfDirectory(at: contactDirectory, includingPropertiesForKeys: nil, options: [])
             return arrayOfUrl
         }
@@ -47,8 +49,19 @@ final class FileManagerClass {
         
     private var plistFile : URL? {
         get {
-            guard let contactDirectory = contactDirectory else { return nil }
+            guard let contactDirectory = contactDirectory else {
+                return nil
+            }
             return contactDirectory.appendingPathComponent("\(Date()).plist")
+        }
+    }
+    
+    private var imageFile : URL? {
+        get {
+            guard let imagesDirectory = imagesDirectory else {
+                return nil
+            }
+            return imagesDirectory.appendingPathComponent("\(Date()).png")
         }
     }
     
@@ -79,7 +92,6 @@ final class FileManagerClass {
     }
     
     func readDataFromPlist(plist: URL) throws -> Contact {
-        print("READING from plist")
         var readContact = Contact()
         do {
             let data = try Data(contentsOf: plist)
@@ -92,7 +104,6 @@ final class FileManagerClass {
     }
     
     func writeDataToPlist(newContact: Contact) throws {
-        print("WRITING to plist")
         let encoder = PropertyListEncoder()
         encoder.outputFormat = .xml
         do {
@@ -105,8 +116,21 @@ final class FileManagerClass {
         }
     }
     
+    func saveImageWith(fileName: UIImage) throws -> URL {
+        guard let filePath = imageFile else {
+            throw ErrorToThrow.failToGetData
+        }
+        
+        if let data = UIImagePNGRepresentation(fileName) {
+                try? data.write(to: filePath)
+        }
+        return filePath
+    }
+    
     func getPlistCount() -> Int {
-        guard let filelist = filelist else { return 0 }
+        guard let filelist = filelist else {
+            return 0
+        }
      return filelist.count
     }
 }

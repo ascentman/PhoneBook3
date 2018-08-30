@@ -18,6 +18,7 @@
 		809F40262136A5A60090A87D /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809F40252136A5A60090A87D /* ContactViewController.swift */; };
 		809F40282136BFF70090A87D /* FileManagerClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809F40272136BFF70090A87D /* FileManagerClass.swift */; };
 		809F402A2136C23D0090A87D /* ErrorToThrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809F40292136C23D0090A87D /* ErrorToThrow.swift */; };
+		809F402E21380DDA0090A87D /* ImagePickerClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809F402D21380DDA0090A87D /* ImagePickerClass.swift */; };
 		80C08A9C21367A430019D9A6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 80C08A9A21367A430019D9A6 /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +36,7 @@
 		809F40252136A5A60090A87D /* ContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactViewController.swift; sourceTree = "<group>"; };
 		809F40272136BFF70090A87D /* FileManagerClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerClass.swift; sourceTree = "<group>"; };
 		809F40292136C23D0090A87D /* ErrorToThrow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorToThrow.swift; sourceTree = "<group>"; };
+		809F402D21380DDA0090A87D /* ImagePickerClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerClass.swift; sourceTree = "<group>"; };
 		80C08A9B21367A430019D9A6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "../../Sigma-internship/PhoneBook2/Base.lproj/Main.storyboard"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -69,6 +71,7 @@
 			isa = PBXGroup;
 			children = (
 				809ABF3221359E26001EB97F /* AppDelegate.swift */,
+				809F402D21380DDA0090A87D /* ImagePickerClass.swift */,
 				809ABF3421359E26001EB97F /* TableViewController.swift */,
 				809F40272136BFF70090A87D /* FileManagerClass.swift */,
 				802684D12136958A000D535B /* SettingsViewController.swift */,
@@ -158,6 +161,7 @@
 			files = (
 				802684CE21368FC9000D535B /* Contact.swift in Sources */,
 				809F40262136A5A60090A87D /* ContactViewController.swift in Sources */,
+				809F402E21380DDA0090A87D /* ImagePickerClass.swift in Sources */,
 				809F40282136BFF70090A87D /* FileManagerClass.swift in Sources */,
 				802684CC21368D44000D535B /* ContactTableViewCell.swift in Sources */,
 				809F402A2136C23D0090A87D /* ErrorToThrow.swift in Sources */,

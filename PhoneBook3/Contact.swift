@@ -11,7 +11,7 @@ import UIKit
 final class Contact : Codable {
     var name : String
     var surname : String
-    var imagePath : String?
+    var imagePath : URL?
     
     init(name: String = "", surname: String = "") {
         self.name = name

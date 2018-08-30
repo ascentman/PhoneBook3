@@ -22,8 +22,10 @@ final class ContactTableViewCell: UITableViewCell {
         contactSurname.text = surname
     }
     
-    func updateImageView(_ image: UIImage?) {
-        contactImageView.image = image
+    func updateImageView(_ imagePath: String?) {
+        if let imagePath = imagePath {
+            contactImageView.image = UIImage(contentsOfFile: imagePath)
+        }
     }
     
     override func prepareForReuse() {

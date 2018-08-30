@@ -13,5 +13,6 @@ enum ErrorToThrow : Error {
     case failToDelete
     case failToReadFromPlist
     case failWriteToPlist
+    case failToGetData
     
 }
