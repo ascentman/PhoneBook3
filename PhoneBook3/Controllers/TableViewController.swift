@@ -8,12 +8,13 @@
 
 import UIKit
 
-class TableViewController: UITableViewController {
+final class TableViewController: UITableViewController {
 
-    @IBOutlet var contactsTableView: UITableView!
-    
+    @IBOutlet weak var contactsTableView: UITableView!
     private let manager = FileManagerClass()
     private var contacts : [Contact] = []
+    private let detailedSegue = "detailedSegue"
+    private let settingsSegue = "settingsSegue"
 
     // MARK: - Lifecycle
     
@@ -36,13 +37,17 @@ class TableViewController: UITableViewController {
     // MARK: - Segues
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if(segue.identifier == "segue") {
+        if(segue.identifier == detailedSegue) {
             let index = tableView.indexPathForSelectedRow
             if let destination = segue.destination as? ContactViewController {
                 if let index = index {
                     destination.newContact = contacts[index.row]
                     destination.currentState = .show
                 }
+                destination.delegate = self
+            }
+        } else if(segue.identifier == settingsSegue) {
+            if let destination = segue.destination as? SettingsViewController {
                 destination.delegate = self
             }
         }
@@ -55,6 +60,15 @@ extension TableViewController: SendContactDelagate {
     
     func userDidEnterData(contact: Contact) {
         contacts.append(contact)
+        contactsTableView.reloadData()
+    }
+}
+
+extension TableViewController : ChangeThemeDelegate {
+    
+    // MARK: - ChangeThemeDelegate
+    
+    func update() {
         contactsTableView.reloadData()
     }
 }
@@ -79,4 +93,17 @@ extension TableViewController {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let contact = contacts[indexPath.row]
+            if let imagePath = contact.imagePath {
+                try? manager.removeFile(from: imagePath.path)
+            }
+            if let files = manager.filelist {
+                try? manager.removeFile(from: files[indexPath.row].path)
+            }
+            contacts.remove(at: indexPath.row)
+            tableView.reloadData()
+        }
+    }
 }

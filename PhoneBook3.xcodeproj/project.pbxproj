@@ -70,22 +70,54 @@
 		809ABF3121359E26001EB97F /* PhoneBook3 */ = {
 			isa = PBXGroup;
 			children = (
-				809ABF3221359E26001EB97F /* AppDelegate.swift */,
-				809F402D21380DDA0090A87D /* ImagePickerClass.swift */,
-				809ABF3421359E26001EB97F /* TableViewController.swift */,
-				809F40272136BFF70090A87D /* FileManagerClass.swift */,
-				802684D12136958A000D535B /* SettingsViewController.swift */,
-				809F40252136A5A60090A87D /* ContactViewController.swift */,
-				802684CB21368D44000D535B /* ContactTableViewCell.swift */,
-				802684CD21368FC9000D535B /* Contact.swift */,
-				802684CF2136951C000D535B /* Themes.swift */,
-				809F40292136C23D0090A87D /* ErrorToThrow.swift */,
+				809F403021385A030090A87D /* Models */,
+				809F403121385A1B0090A87D /* Views */,
+				809F402F213859C20090A87D /* Controllers */,
+				809F403221385A860090A87D /* SupportClasses */,
 				809ABF3921359E28001EB97F /* Assets.xcassets */,
 				80C08A9A21367A430019D9A6 /* Main.storyboard */,
 				809ABF3B21359E28001EB97F /* LaunchScreen.storyboard */,
 				809ABF3E21359E28001EB97F /* Info.plist */,
 			);
 			path = PhoneBook3;
+			sourceTree = "<group>";
+		};
+		809F402F213859C20090A87D /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				809ABF3421359E26001EB97F /* TableViewController.swift */,
+				802684D12136958A000D535B /* SettingsViewController.swift */,
+				809F40252136A5A60090A87D /* ContactViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		809F403021385A030090A87D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				802684CD21368FC9000D535B /* Contact.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		809F403121385A1B0090A87D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				802684CB21368D44000D535B /* ContactTableViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		809F403221385A860090A87D /* SupportClasses */ = {
+			isa = PBXGroup;
+			children = (
+				809ABF3221359E26001EB97F /* AppDelegate.swift */,
+				809F402D21380DDA0090A87D /* ImagePickerClass.swift */,
+				809F40272136BFF70090A87D /* FileManagerClass.swift */,
+				802684CF2136951C000D535B /* Themes.swift */,
+				809F40292136C23D0090A87D /* ErrorToThrow.swift */,
+			);
+			path = SupportClasses;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

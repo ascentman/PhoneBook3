@@ -8,15 +8,22 @@
 
 import UIKit
 
-class SettingsViewController: UIViewController {
+protocol ChangeThemeDelegate {
+    func update()
+}
+
+final class SettingsViewController: UIViewController {
     
     @IBOutlet private weak var darkThemeSwitch: UISwitch!
+    var delegate : TableViewController?
+    private let selectedTheme = "Selected theme"
     
-
+    // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let theme = UserDefaults.standard.value(forKey: "Selected theme") as? Bool {
+        if let theme = UserDefaults.standard.value(forKey: selectedTheme) as? Bool {
             darkThemeSwitch.isOn = theme
         }
     }
@@ -30,14 +37,17 @@ class SettingsViewController: UIViewController {
             Theme.light.apply()
         }
         self.applyAppearence()
-        UserDefaults.standard.set(sender.isOn, forKey: "Selected theme")
+        delegate?.update()
+        UserDefaults.standard.set(sender.isOn, forKey: selectedTheme)
     }
 }
 
 extension UIViewController {
     
+    // MARK: - applyAppearence
+    
     func applyAppearence() {
-        UIView.animate(withDuration: 0.6) {
+        UIView.animate(withDuration: 0.1) {
             self.navigationController?.navigationBar.barTintColor = Theme.current.backgroundColor
             self.navigationController?.navigationBar.tintColor = Theme.current.textColor
             self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: Theme.current.textColor]

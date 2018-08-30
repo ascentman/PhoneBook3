@@ -11,6 +11,9 @@ import UIKit
 final class FileManagerClass {
     
     private let fileManager = FileManager.default
+    private let contacts = "Contacts"
+    private let images = "Images"
+    
     var filelist : [URL]? {
         get {
             guard let contactDirectory = contactDirectory else {
@@ -25,7 +28,6 @@ final class FileManagerClass {
             guard let documentDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
                 return nil
             }
-            print(documentDirectory) //MARK: debug!
             return documentDirectory
             }
         }
@@ -34,7 +36,7 @@ final class FileManagerClass {
             guard let documentDirectory = documentDirectory else {
                 return nil
             }
-            return documentDirectory.appendingPathComponent("Contacts", isDirectory: true)
+            return documentDirectory.appendingPathComponent(contacts, isDirectory: true)
         }
     }
     
@@ -43,7 +45,7 @@ final class FileManagerClass {
             guard let documentDirectory = documentDirectory else {
                 return nil
             }
-            return documentDirectory.appendingPathComponent("Images", isDirectory: true)
+            return documentDirectory.appendingPathComponent(images, isDirectory: true)
         }
     }
         

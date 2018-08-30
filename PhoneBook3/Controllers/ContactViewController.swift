@@ -20,18 +20,20 @@ enum ContactViewControllerStates {
 
 final class ContactViewController: ImagePickerClass {
 
-    @IBOutlet weak var name: UITextField!
-    @IBOutlet weak var surname: UITextField!
-    @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var surnameLabel: UILabel!
-    @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet private weak var name: UITextField!
+    @IBOutlet private weak var surname: UITextField!
+    @IBOutlet private weak var imageView: UIImageView!
+    @IBOutlet private weak var nameLabel: UILabel!
+    @IBOutlet private weak var surnameLabel: UILabel!
+    @IBOutlet private weak var saveButton: UIButton!
     
-    var currentState : ContactViewControllerStates = .add
     var newContact = Contact()
     var delegate : SendContactDelagate?
+    var currentState : ContactViewControllerStates = .add
     private let manager = FileManagerClass()
     private let pickImage = ImagePickerClass()
+    private let emptyImage = "empty"
+    private let viewControllerTitle = "Details"
 
     // MARK: - Lifecycle
     
@@ -49,10 +51,6 @@ final class ContactViewController: ImagePickerClass {
         alertOptions()
     }
     
-    override func selectedImage(choosen: UIImage) {
-        imageView.image = choosen
-    }
-    
     @IBAction func saveClicked(_ sender: Any) {
         guard let name = name.text,
             !name.isEmpty,
@@ -63,15 +61,19 @@ final class ContactViewController: ImagePickerClass {
         }
         newContact.name = name
         newContact.surname = surname
-        newContact.imagePath = try? manager.saveImageWith(fileName: imageView.image ?? UIImage(named: "empty")!)
+        newContact.imagePath = try? manager.saveImageWith(fileName: imageView.image ?? UIImage(named: emptyImage)!)
         
         try? manager.writeDataToPlist(newContact: newContact)
         delegate?.userDidEnterData(contact: newContact)
         navigationController?.popViewController(animated: true)
     }
     
+    override func selectedImage(choosen: UIImage) {
+        imageView.image = choosen
+    }
+    
     private func showContactDetails() {
-        self.title = "Details"
+        self.title = viewControllerTitle
         saveButton.isHidden = true
         name.isHidden = true
         surname.isHidden = true
@@ -82,9 +84,10 @@ final class ContactViewController: ImagePickerClass {
     }
 }
 
-// MARK: - Extensions
-
 extension UIViewController {
+    
+    // MARK: - presentAlert
+    
     func presentAlert(withTitle title: String, message : String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let OKAction = UIAlertAction(title: "OK", style: .default, handler: nil)
@@ -92,5 +95,3 @@ extension UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
 }
-
-

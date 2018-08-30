@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ImagePickerClass: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class ImagePickerClass: UIViewController {
     
     private let imagePickerController = UIImagePickerController()
     
@@ -20,21 +20,21 @@ class ImagePickerClass: UIViewController, UIImagePickerControllerDelegate, UINav
     }
     
     func alertOptions() {
-        let actionList = UIAlertController(title: "Choose photo", message: "use a photo library or make new", preferredStyle: .actionSheet)
+        let actionList = UIAlertController(title: "Choose photo", message: "use a photo library or make a new", preferredStyle: .actionSheet)
         
         let galleryAction = UIAlertAction(title: "Photo Library", style: .default) {
-            btn in
+            _ in
             self.imagePickerController.sourceType = .photoLibrary
             self.presentPicker()
         }
         
         let cameraAction = UIAlertAction(title: "Camera", style: .default) {
-            btn in
+            _ in
             if UIImagePickerController.isSourceTypeAvailable(.camera) {
                 self.imagePickerController.sourceType = .camera
                 self.presentPicker()
             } else {
-                assertionFailure("camera is not available")
+                print(ErrorToThrow.cameraNoAvailable)
             }
         }
         
@@ -54,6 +54,9 @@ class ImagePickerClass: UIViewController, UIImagePickerControllerDelegate, UINav
     func selectedImage(choosen: UIImage) {
         
     }
+}
+
+extension ImagePickerClass : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     // MARK - UIImagePickerDelegate
     

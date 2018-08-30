@@ -13,6 +13,7 @@ final class ContactTableViewCell: UITableViewCell {
     @IBOutlet private weak var contactName: UILabel!
     @IBOutlet private weak var contactSurname: UILabel!
     @IBOutlet private weak var contactImageView: UIImageView!
+    private let imageEmpty = "empty"
     
     func updateName(_ name: String?) {
         contactName.text = name
@@ -33,7 +34,7 @@ final class ContactTableViewCell: UITableViewCell {
         
         contactName.text = nil
         contactSurname.text = nil
-        contactImageView.image = UIImage(named: "empty")
+        contactImageView.image = UIImage(named: imageEmpty)
     }
 }
 
@@ -51,6 +52,8 @@ extension UITableViewCell {
 }
 
 extension UITableViewCell {
+    
+    // MARK: - UITableViewCell
     
     func applyAppearence() {
         self.textLabel?.textColor = Theme.current.textColor

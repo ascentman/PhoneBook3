@@ -14,5 +14,5 @@ enum ErrorToThrow : Error {
     case failToReadFromPlist
     case failWriteToPlist
     case failToGetData
-    
+    case cameraNoAvailable
 }
